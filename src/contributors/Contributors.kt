@@ -55,8 +55,8 @@ interface Contributors: CoroutineScope {
         val startTime = System.currentTimeMillis()
         when (getSelectedVariant()) {
             BLOCKING -> { // Blocking UI thread
-//                val users = loadContributorsBlocking(service, req)
-//                updateResults(users, startTime)
+                val users = loadContributorsBlocking(service, req)
+                updateResults(users, startTime)
             }
             BACKGROUND -> { // Blocking a background thread
                 loadContributorsBackground(service, req) { users ->
@@ -101,7 +101,7 @@ interface Contributors: CoroutineScope {
             }
             CHANNELS -> {  // Performing requests concurrently and showing progress
                 launch(Dispatchers.Default) {
-                    loadContributorsChannels(service, req) { users, completed ->
+                    val users = loadContributorsChannels(service, req) { users, completed ->
                         withContext(Dispatchers.Main) {
                             updateResults(users, startTime, completed)
                         }
