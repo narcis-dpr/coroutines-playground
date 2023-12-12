@@ -17,6 +17,7 @@ suspend fun loadContributorsConcurrent(service: GitHubService, req: RequestData)
                     logUsers(repo, it)
                 }
                 .bodyList()
+            
         }
     }
     deferred.awaitAll().flatten().aggregate()
